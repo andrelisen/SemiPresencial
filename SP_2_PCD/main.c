@@ -40,12 +40,12 @@ int main() {
             }
             case 2:
             { //merge
-                s = ordenamerge();
+            //    s = ordenamerge();
                 break;
             }
             case 3:
             { //quick
-                ins = ordenaquick();
+              //  ins = ordenaquick();
                 break;
             }
             case 4:
