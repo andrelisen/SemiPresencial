@@ -8,7 +8,7 @@
 
 int main() {
     int x, *vetor, i = 0, opc;
-    float b = 0, s = 0, ins = 0;
+    float m = 0, s = 0, q = 0;
     FILE *arquivo;
     printf("Digite a quantidade de numeros inteiros:");
     scanf("%d", &x);
@@ -23,29 +23,29 @@ int main() {
     for (i = 0; i < x; i++) {
         vetor[i] = rand() % (x * 2);
         //printf("%d\n", vetor[i]);
-        fprintf(arquivo, "%d\t", vetor[i]);
+        fprintf(arquivo, "%d\t", vetor[i]); 
     }
     fclose(arquivo);
     printf("-->NUMEROS GERADOS E SALVOS COM SUCESSO<--\n");
     //menu
     do {
         printf("\n==MENU==\n");
-        printf("0)Sair\n1)Incrementos decrescentes (Shell Sort)\n2) Intercalação (Merge Sort)\n3) Ordenação rápida (Quick Sort)4)Mostrar valores de entrada\n5)Mostrar valores ordenados\n6)Tempo de execucao\n>>OPCAO:");
+        printf("0)Sair\n1)Incrementos decrescentes (Shell Sort)\n2)Intercalação (Merge Sort)\n3)Ordenação rápida (Quick Sort)\n4)Mostrar valores de entrada\n5)Mostrar valores ordenados\n6)Tempo de execucao\n>>OPCAO:");
         scanf("%d", &opc);
         switch (opc) {
             case 1:
             { //shell
-                b = ordenashell();
+                s = ordenashell();
                 break;
             }
             case 2:
             { //merge
-            //    s = ordenamerge();
+                m = ordenaMerge();
                 break;
             }
             case 3:
             { //quick
-              //  ins = ordenaquick();
+               // q = ordenaquick();
                 break;
             }
             case 4:
@@ -60,7 +60,7 @@ int main() {
             }
             case 6:
             { //TEMPO DE EXECUÇÃO DE CADA PROCESSO
-                printf("-->Tempo de execucao<--\n[1] SHELL=%f\n[2]MERGE=%f\n[3]QUICK=%f\n", b, s, ins);
+                printf("-->Tempo de execucao<--\n[1] SHELL=%f\n[2]MERGE=%f\n[3]QUICK=%f\n", s, m, q);
                 break;
             }
         }
