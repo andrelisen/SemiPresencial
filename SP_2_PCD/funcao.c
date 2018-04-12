@@ -1,4 +1,6 @@
 //implementacao
+// Pesquisa e Classificação de Dados - Atividade Semi-Presencial 02 - 11 de abril de 2018
+// Andrelise Nunes Lemos Pinheiro (andrelisenunes@hotmail.com) , Marina Silva da Silva (marina_silva98@hotmail.com).
 #include <stdio.h>
 #include <string.h>
 #include "funcao.h"
@@ -70,8 +72,6 @@ float ordenaMerge(int *vetor, int n) {
     fim = clock();
     total = ((float) (fim - inicio) / CLOCKS_PER_SEC);
     printf("Vetor ordenado com sucesso!");
-    
-    
     if ((arquivo = fopen("merge.txt", "w")) == NULL) {
         printf("Nao e possivel criar o arquivo\n");
     } else {
@@ -101,7 +101,6 @@ void mergeSort(int *vetor, int comeco, int fim) {
 }
 
 void mergeorganiza(int *vetor, int comeco, int meio, int fim) {
-    FILE *arquivo;
     int i, j, k, *tmp, partinicio = 0, partmeio = 0, quantidade, cont1 = 0, cont2 = 0;
     quantidade = fim - comeco + 1;
     partinicio = comeco;
@@ -139,7 +138,6 @@ void mergeorganiza(int *vetor, int comeco, int meio, int fim) {
 }
 
 void mostraentrada() {
-    FILE *arquivo;
     int a, aux, cont = 0;
     if ((arquivo = fopen("entrada.txt", "r")) == NULL) {
         printf("Impossivel realizar a leitura do arquivo. Tente novamente\n");
