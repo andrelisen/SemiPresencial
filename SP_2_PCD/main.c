@@ -5,7 +5,7 @@
 #include "funcao.h"
 #include <stdlib.h>
 #include <time.h>
-
+#include <math.h>
 int main() {
     int x, *vetor, i = 0, opc;
     float m = 0, s = 0, q = 0;

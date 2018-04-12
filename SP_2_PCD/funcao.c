@@ -4,7 +4,7 @@
 #include "funcao.h"
 #include <stdlib.h>
 #include <time.h>
-
+#include <math.h>
 float ordenashell(void) {
     FILE *arquivo;
     int *vetor, n, i = 0, j, h, aux;
@@ -60,7 +60,7 @@ float ordenashell(void) {
 
 float ordenaMerge() {
     FILE *arquivo;
-    int *vetor, n, i = 0, metade, direita, esq, meio;
+    int *vetor, n, i = 0;
     clock_t inicio, fim;
     float total;
     if ((arquivo = fopen("entrada.txt", "r")) == NULL) {
@@ -72,74 +72,95 @@ float ordenaMerge() {
 
     vetor = malloc(sizeof (int)* n);
 
-    while (!feof(arquivo)) {
-        fscanf(arquivo, "%d", &vetor[i]);
-        i++;
-    }
-    
-    metade = n/2;
-       
-    fclose(arquivo);
-    inicio = clock();
-
-    mergeSort(vetor, 0, n-1);
-
-    fim = clock();
-    if ((arquivo = fopen("merge.txt", "w")) == NULL) {
-        printf("Nao e possivel criar o arquivo\n");
-    } else {
-        for (i = 0; i < n; i++) {
-            fprintf(arquivo, "%d\t", vetor[i]);
-        }
-    }
-    fclose(arquivo);
-    total = ((float) (fim - inicio) / CLOCKS_PER_SEC);
-    printf("Vetor ordenado com sucesso!");
+		while (!feof(arquivo)) {
+			fscanf(arquivo, "%d", &vetor[i]);
+			i++;
+			}
+		fclose(arquivo);
+		  inicio=clock();
+		  mergeSort(vetor, 0, n-1);
+		  fim = clock();
+					total = ((float) (fim - inicio) / CLOCKS_PER_SEC);
+					printf("Vetor ordenado com sucesso!");
     return total;
 }
 
-void merge(int vetor[], int comeco, int meio, int fim) {
-    int com1 = comeco, com2 = meio + 1, comAux = 0, tam = fim - comeco + 1;
-    int *vetAux;
-    vetAux = (int*) malloc(tam * sizeof (int));
-
-    while (com1 <= meio && com2 <= fim) {
-        if (vetor[com1] < vetor[com2]) {
-            vetAux[comAux] = vetor[com1];
-            com1++;
-        } else {
-            vetAux[comAux] = vetor[com2];
-            com2++;
-        }
-        comAux++;
-    }
-
-    while (com1 <= meio) { //Caso ainda haja elementos na primeira metade
-        vetAux[comAux] = vetor[com1];
-        comAux++;
-        com1++;
-    }
-
-
-    while (com2 <= fim) { //Caso ainda haja elementos na segunda metade
-        vetAux[comAux] = vetor[com2];
-        comAux++;
-        com2++;
-    }
-
-    for (comAux = comeco; comAux <= fim; comAux++) { //Move os elementos de volta para o vetor original
-        vetor[comAux] = vetAux[comAux - comeco];
-    }
-    free(vetAux);
+void mergeSort(int *vetor, int comeco, int fim)
+{
+	int meio;
+		if(comeco==fim)
+		{
+				//printf("Nada encontrado no vetor\n");
+		return;
+		}
+			else{
+				if(comeco<fim)
+				{
+					meio = floor(comeco+fim)/2;
+					mergeSort(vetor, comeco, meio);
+					mergeSort(vetor,meio+1,fim);
+					mergeorganiza(vetor, comeco, meio, fim);
+				}	
+			}
+	return;		
 }
 
-void mergeSort(int vetor[], int comeco, int fim) {
-    if (comeco < fim) {
-        int meio = (fim + comeco) / 2;
-        mergeSort(vetor, comeco, meio);
-        mergeSort(vetor, meio + 1, fim);
-        merge(vetor, comeco, meio, fim);
-    }
+void mergeorganiza(int *vetor, int comeco, int meio, int fim)
+{
+	FILE *arquivo;
+	int i, j, k, *tmp, partinicio=0,partmeio=0,quantidade, cont1=0, cont2=0;
+		quantidade=fim-comeco+1;
+			partinicio=comeco;
+			partmeio=meio+1;
+			tmp=(int *) malloc(sizeof(int) * quantidade);
+				for(i=0;i<quantidade;i++)
+				{
+						if(cont1==0 && cont2==0 )
+						{
+								if(vetor[partinicio] < vetor[partmeio])
+								{
+								tmp[i]=vetor[partinicio++];
+								}
+									else{
+									tmp[i]=vetor[partmeio++];	
+									}
+										if(partinicio>meio)
+										{
+										cont1=1;	
+										}
+											if(partmeio>fim)
+											{
+											cont2=1;	
+											}
+						}					
+												else{
+														if(cont1==0)
+														{
+														tmp[i]=vetor[partinicio++];
+														}
+															else{
+																tmp[i]=vetor[partmeio++];
+															}
+												}
+						}
+						j=0;
+						k=comeco;
+				while(j<quantidade)
+				{
+						vetor[k]=tmp[j];	
+					j++;
+					k++;
+				}
+	free(tmp);
+		if ((arquivo = fopen("merge.txt", "w")) == NULL) {
+					printf("Nao e possivel criar o arquivo\n");
+					}
+					else {
+						for (i = 0; i < quantidade; i++) {
+						fprintf(arquivo, "%d\t", vetor[i]);
+						}
+						}
+						fclose(arquivo);	
 }
 
 void mostraentrada() {
@@ -188,10 +209,10 @@ void mostraordenado() {
             fclose(arquivo);
             break;
         case 2:
-            if ((arquivo = fopen("selection.txt", "r")) == NULL) {
+            if ((arquivo = fopen("merge.txt", "r")) == NULL) {
                 printf("Vetor não ordenado para esse tipo\n");
             } else {
-                printf("---SELECTION SORT---\n");
+                printf("---MERGE SORT---\n");
                 while (cont != a) {
                     fscanf(arquivo, "%d", &aux);
                     printf("%d\t", aux);
@@ -201,10 +222,10 @@ void mostraordenado() {
             fclose(arquivo);
             break;
         case 3:
-            if ((arquivo = fopen("insertion.txt", "r")) == NULL) {
+            if ((arquivo = fopen("quick.txt", "r")) == NULL) {
                 printf("Vetor não ordenado para esse tipo\n");
             } else {
-                printf("---INSERTION SORT---\n");
+                printf("---QUICK SORT---\n");
                 while (cont != a) {
                     fscanf(arquivo, "%d", &aux);
                     printf("%d\t", aux);
