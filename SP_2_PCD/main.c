@@ -6,31 +6,20 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
+
 int main() {
-    int x, *vetor, i = 0, opc;
+    int tamanho, *vetor, i = 0, opc, x=0;
     float m = 0, s = 0, q = 0;
     FILE *arquivo;
+
     printf("Digite a quantidade de numeros inteiros:");
-    scanf("%d", &x);
-    //cria vetor com valores aleatórios
-    vetor = malloc(sizeof (int)* x);
-    srand(time(NULL));
-    //abrindo arquivo que guardará os números gerados
-    if ((arquivo = fopen("entrada.txt", "w")) == NULL) {
-        printf("Nao e possivel criar um arquivo de texto. Tente novamente\n");
-    }
-    fprintf(arquivo, "%d\n", x); //primeiro elemento é o tamanho do meu vetor de números para a ordenação
-    for (i = 0; i < x; i++) {
-        vetor[i] = rand() % (x * 2);
-        //printf("%d\n", vetor[i]);
-        fprintf(arquivo, "%d\t", vetor[i]); 
-    }
-    fclose(arquivo);
-    printf("-->NUMEROS GERADOS E SALVOS COM SUCESSO<--\n");
-    //menu
+    scanf("%d", &tamanho); //tamanho do vetor
+    
+    vetor = gerarNumeros(tamanho,x);
+    x++;
     do {
         printf("\n==MENU==\n");
-        printf("0)Sair\n1)Incrementos decrescentes (Shell Sort)\n2)Intercalação (Merge Sort)\n3)Ordenação rápida (Quick Sort)\n4)Mostrar valores de entrada\n5)Mostrar valores ordenados\n6)Tempo de execucao\n>>OPCAO:");
+        printf("0)Sair\n1)Incrementos decrescentes (Shell Sort)\n2)Intercalação (Merge Sort)\n3)Ordenação rápida (Quick Sort)\n4)Mostrar valores de entrada\n5)Mostrar valores ordenados\n6)Tempo de execucao\n7)Gerar outra sequencia de numeros\n>>OPCAO:");
         scanf("%d", &opc);
         switch (opc) {
             case 1:
@@ -40,12 +29,15 @@ int main() {
             }
             case 2:
             { //merge
-                m = ordenaMerge();
+                vetor = abrirArquivo();
+                m = ordenaMerge(vetor, tamanho);
                 break;
             }
             case 3:
             { //quick
-               // q = ordenaquick();
+                vetor = abrirArquivo();
+                q = ordenaquick(vetor, 0, (tamanho));
+                printf("Vetor ordenado com sucesso!");
                 break;
             }
             case 4:
@@ -61,6 +53,11 @@ int main() {
             case 6:
             { //TEMPO DE EXECUÇÃO DE CADA PROCESSO
                 printf("-->Tempo de execucao<--\n[1] SHELL=%f\n[2]MERGE=%f\n[3]QUICK=%f\n", s, m, q);
+                break;
+            }
+            case 7:
+            {
+                vetor = gerarNumeros(tamanho, x);
                 break;
             }
         }
